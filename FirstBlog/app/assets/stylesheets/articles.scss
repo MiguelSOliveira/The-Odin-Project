@@ -1,0 +1,36 @@
+// Place all the styles related to the articles controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body {
+  background-color: #5d6873;
+}
+
+h1 {
+  color: white;
+}
+
+th {
+  color: white;
+}
+
+
+.odd {
+  padding: 10px 10px 0px 20px;
+  background-color: #181edc;
+  color: white;
+}
+
+.even {
+  padding: 10px 10px 0px 20px;
+  background-color: #36b9da;
+  color: black;
+}
+
+a {
+  color: white;
+}
+
+a:hover {
+  color: black;
+}
