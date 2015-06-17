@@ -1,4 +1,9 @@
 <h1> <%= @article.title %> </h1>
+<p>
+  <% if @article.image.exists? %>
+  <%= image_tag @article.image.url(:medium) %>
+  <% end %>
+</p>
 <p> <%= @article.body %> </p></br>
 
 <h3>Comments (<%= @article.comments.size %>)</h3>
