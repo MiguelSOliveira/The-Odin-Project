@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+  before_filter :require_login, except: [:create]
 
   def index
     @comments = Comments.all
