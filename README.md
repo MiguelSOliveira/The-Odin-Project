@@ -2,9 +2,9 @@
 Web Development/Rails tutorial
 
 # Heroku Commands
-rm -rf .git
-git init 
-git add .
-git commit -m "First commit"
-heroku create --stack cedar
-git push heroku master
+rm -rf .git<br />
+git init <br />
+git add .<br />
+git commit -m "First commit"<br />
+heroku create --stack cedar<br />
+git push heroku master<br />
