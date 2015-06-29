@@ -22,6 +22,11 @@ class CodeBreaker < CodeMaker
         code << last_try[i]
         i += 1
         next
+      elsif not wrong_indexes.empty? and wrong_indexes[0] != i.to_s
+        code << last_try[wrong_indexes[0].to_i]
+        wrong_indexes = wrong_indexes[1..-1]
+        i += 1
+        next
       end
       random_number = rand(1..6).to_s
       next if @@numbers_used_index[i].include? random_number

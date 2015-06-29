@@ -10,22 +10,17 @@ def new_game
   puts CodeMaker.code
   code_breaker = CodeBreaker.new LENGTH
   won = false
-  try = code_breaker.generate_code_breaker [], [], "1111"
+  try = code_breaker.generate_code_breaker [], [], "1122"
 
   TRIES.times do
+    break if won
     correct_indexes, wrong_indexes = code_breaker.try_code(try.to_s)
-    p CodeMaker.code
     puts "I'm guessing.... #{try}"
     puts '["' + correct_indexes + '","' + wrong_indexes + '"]'
     try = code_breaker.generate_code_breaker correct_indexes, wrong_indexes, try
-    if correct_indexes.size == LENGTH
-      won = true
-      break
-    end
+    won = true if correct_indexes.size == LENGTH
     gets
   end
   puts won ? "I won in just #{CodeBreaker.tries} tries!" : "I lost!"
-  return
-
 end
 new_game
