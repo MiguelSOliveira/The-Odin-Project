@@ -1,0 +1,5 @@
+--- !ruby/object:Player
+secret_word: antiwar
+public_word: an__war
+wrong_guesses: 'c l v e '
+tries: 10
