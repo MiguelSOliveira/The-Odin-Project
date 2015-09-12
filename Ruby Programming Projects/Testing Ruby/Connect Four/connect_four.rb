@@ -88,7 +88,7 @@ class Game
           column = cur_play
           played = true
         else
-          puts "Sorry that is not a valid play"  
+          puts "Sorry that is not a valid play"
         end
       end
       play(column.to_i)
