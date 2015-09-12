@@ -64,10 +64,11 @@ def new_game
   board_game.print_board
   players = []
   puts "Enter name for player 1"
-  name = gets.chomp
+  # name = gets.chomp
+  name = "Miguel"
   players << Player.new('X', name)
   puts "Enter name for player 2"
-  name = gets.chomp
+  name = "No idea"
   players << Player.new('O', name)
   turn = 0
   won = nil

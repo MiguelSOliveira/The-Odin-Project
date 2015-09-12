@@ -1,6 +1,5 @@
 #Bubble sort without yield
-def bubble_sort
-  array = [4,3,78,2,0,2]
+def bubble_sort array
   loop do
     sorted = true
     (0...array.length-1).each do |i|
@@ -11,9 +10,10 @@ def bubble_sort
     end
     break if sorted
   end
-  p array
+  array
 end
-bubble_sort
+array = [4,3,78,2,0,2]
+bubble_sort array
 
 #Bubble sort using yield
 def bubble_sort_by array
@@ -27,7 +27,7 @@ def bubble_sort_by array
       end
     break if sorted
   end
-  p array
+  array
 end
 bubble_sort_by(["hi","hello","hey"]) do |left,right|
   right.length - left.length

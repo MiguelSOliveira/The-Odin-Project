@@ -29,7 +29,7 @@ module Enumerable
         answer << x
       end
     end
-    p answer
+    answer
   end
 
   def my_all
