@@ -13,7 +13,19 @@ class Game < Board
     @cur_player = (@cur_player == :one) ? :two : :one
   end
 
-  
+  def valid_play_for_pawn? pawn, from, to
+    if pawn == PAWN_WHITE
+
+    else
+
+    end
+  end
+
+  def valid_play? piece, from, to
+    if piece == PAWN_WHITE or piece == PAWN_BLACK
+      return valid_play_for_pawn? piece, from, to
+    end
+  end
 
   def play from, to
     old_col_index = Game::LETTERS_TO_INDEX[from[1]]
