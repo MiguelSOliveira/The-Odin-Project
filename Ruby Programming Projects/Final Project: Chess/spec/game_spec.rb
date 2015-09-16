@@ -14,10 +14,10 @@ describe Game do
   end
 
   describe "#switch_player" do
-    expect(game.cur_player).to eq(Game::PLAYER[0])
-    game.switch_player
-    expect(game.cur_player).to eq(Game::PLAYER[1])
+    it "switches player" do
+      expect(game.cur_player).to eq(Game::PLAYER[0])
+      game.switch_player
+      expect(game.cur_player).to eq(Game::PLAYER[1])
+    end
   end
-
-  
 end
