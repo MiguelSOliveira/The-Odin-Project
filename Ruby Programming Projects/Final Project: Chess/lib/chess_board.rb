@@ -1,8 +1,14 @@
+require 'ostruct'
+
 class Board
   COLS, ROWS = 8, 8
   LETTERS_TO_INDEX = { 'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3, 'E' => 4, 'F' => 5, 'G' => 6, 'H' => 7 }
-  KING_WHITE, QUEEN_WHITE, ROOK_WHITE, BISHOP_WHITE, KNIGHT_WHITE, PAWN_WHITE = "\u2654".encode("utf-8"), "\u2655".encode("utf-8"), "\u2656".encode("utf-8"), "\u2657".encode("utf-8"), "\u2658".encode("utf-8"), "\u2659".encode("utf-8")
-  KING_BLACK, QUEEN_BLACK, ROOK_BLACK, BISHOP_BLACK, KNIGHT_BLACK, PAWN_BLACK = "\u265A".encode("utf-8"), "\u265B".encode("utf-8"), "\u265C".encode("utf-8"), "\u265D".encode("utf-8"), "\u265E".encode("utf-8"), "\u265F".encode("utf-8")
+  KING_WHITE, QUEEN_WHITE, ROOK_WHITE, BISHOP_WHITE, KNIGHT_WHITE, PAWN_WHITE = "\u2654".encode("utf-8"), "\u2655".encode("utf-8"), "\u2656".encode("utf-8"), "\u2657".encode("utf-8"), "\u2658".encode("utf-8"), OpenStruct.new
+  PAWN_WHITE.name = "\u2659".encode("utf-8")
+  PAWN_WHITE.count = 0
+  KING_BLACK, QUEEN_BLACK, ROOK_BLACK, BISHOP_BLACK, KNIGHT_BLACK, PAWN_BLACK = "\u265A".encode("utf-8"), "\u265B".encode("utf-8"), "\u265C".encode("utf-8"), "\u265D".encode("utf-8"), "\u265E".encode("utf-8"), OpenStruct.new
+  PAWN_BLACK.name = "\u265F".encode("utf-8")
+  PAWN_BLACK.count = 0
   attr_reader :board
 
   def clear_board
@@ -24,7 +30,11 @@ class Board
     @board.each_with_index do |row, index|
       print "#{index} | "
       row.each do |piece|
-        print "#{piece} | "
+        if piece == PAWN_WHITE or piece == PAWN_BLACK
+          print "#{piece.name} | "
+        else
+          print "#{piece} | "
+        end
       end
       puts "#{index}"
     end

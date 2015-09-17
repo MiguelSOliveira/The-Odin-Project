@@ -15,14 +15,20 @@ class Game < Board
 
   def valid_play_for_pawn? pawn, from, to
     if pawn == PAWN_WHITE
-
+      if pawn.count == 0
+        pawn.count += 1
+        return true if (from[0].to_i - to[0].to_i).between?(-2, -1) and from[1] == to[1]
+        return false
+      else
+        return true if (from[0].to_i - to[0].to_i) == -1 and from[1] == to[1]
+        return false
+      end
     else
-
     end
   end
 
   def valid_play? piece, from, to
-    if piece == PAWN_WHITE or piece == PAWN_BLACK
+    if piece == PAWN_WHITE[0] or piece == PAWN_BLACK[0]
       return valid_play_for_pawn? piece, from, to
     end
   end
