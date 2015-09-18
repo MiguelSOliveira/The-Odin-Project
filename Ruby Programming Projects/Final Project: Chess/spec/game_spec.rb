@@ -91,6 +91,7 @@ describe Game do
       game.play("6B", "4B")
       game.play("7A", "6A")
       expect(game.valid_play_for_rook?(rook, "6A", "6B")).to be_truthy
+      expect(game.valid_play_for_rook?(rook, "6A", "7A")).to be_truthy
     end
   end
 
