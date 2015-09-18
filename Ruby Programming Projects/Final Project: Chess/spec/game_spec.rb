@@ -76,4 +76,22 @@ describe Game do
       end
     end
   end
+
+  describe "#valid_play_for_rook?" do
+    it "does not move over pieces" do
+      rook = Game::ROOK_BLACK
+      game.play("6A", "4A")
+      expect(game.valid_play_for_rook?(rook, "7A", "5A")).to be_truthy
+      expect(game.valid_play_for_rook?(rook, "7A", "4A")).to be_truthy
+      expect(game.valid_play_for_rook?(rook, "7A", "3A")).to be_falsey
+    end
+    it "moves in any direction" do
+      rook = Game::ROOK_BLACK
+      game.play("6A", "4A")
+      game.play("6B", "4B")
+      game.play("7A", "6A")
+      expect(game.valid_play_for_rook?(rook, "6A", "6B")).to be_truthy
+    end
+  end
+
 end

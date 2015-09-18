@@ -36,8 +36,20 @@ class Game < Board
   end
 
   def valid_play_for_rook? rook, from, to
-    return true if from[0].to_i == to[0].to_i or from[1] == to[1]
-    return false
+    from_index, to_index, from_letter, to_letter = from[0].to_i, to[0].to_i, from[1], to[1]
+    return false unless from_index == to_index or from_letter == to_letter
+    if from_index == to_index
+      if from_letter > to_letter then from_letter, to_letter = to_letter, from_letter end
+      ((LETTERS_TO_INDEX[from_letter]+1)...LETTERS_TO_INDEX[to_letter]).each do |col|
+        return false if @board[from_index][col] != '-'
+      end
+    else
+      if from_index > to_index then from_index, to_index = to_index, from_index end
+      ((from_index+1)...to_index).each do |row|
+        return false if @board[row][LETTERS_TO_INDEX[from_letter]] != '-'
+      end
+    end
+    return true
   end
 
   def valid_play? piece, from, to
