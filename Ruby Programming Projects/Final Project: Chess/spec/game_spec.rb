@@ -22,29 +22,58 @@ describe Game do
   end
 
   describe "#valid_play_for_pawn?" do
-    it "moves one space" do
-      pawn = Game::PAWN_WHITE
-      expect(game.valid_play_for_pawn?(pawn, "1A", "2A")).to be_truthy
+    describe "white pawn" do
+      it "moves one space" do
+        pawn = Game::PAWN_WHITE
+        expect(game.valid_play_for_pawn?(pawn, "1A", "2A")).to be_truthy
+      end
+      it "moves two spaces on the first play" do
+        pawn = Game::PAWN_WHITE
+        pawn.count = 0
+        expect(game.valid_play_for_pawn?(pawn, "1A", "3A")).to be_truthy
+      end
+      it "does not move more than one space vertically on the second play" do
+        pawn = Game::PAWN_WHITE
+        pawn.count = 0
+        game.play("1A", "2A")
+        pawn.count = 1
+        game.switch_player
+        game.play("6A", "5A")
+        game.switch_player
+        expect(game.valid_play_for_pawn?(pawn, "2A", "4A")).to be_falsey
+      end
+      it "does not move backwards" do
+        pawn = Game::PAWN_WHITE
+        pawn.count = 0
+        expect(game.valid_play_for_pawn?(pawn, "2A", "1A")).to be_falsey
+      end
     end
-    it "moves two spaces on the first play" do
-      pawn = Game::PAWN_WHITE
-      pawn.count = 0
-      expect(game.valid_play_for_pawn?(pawn, "1A", "3A")).to be_truthy
-    end
-    it "does not move more than one space vertically on the second play" do
-      pawn = Game::PAWN_WHITE
-      pawn.count = 0
-      game.play("1A", "2A")
-      pawn.count = 1
-      game.switch_player
-      game.play("6A", "5A")
-      game.switch_player
-      expect(game.valid_play_for_pawn?(pawn, "2A", "4A")).to be_falsey
-    end
-    it "does not move backwards" do
-      pawn = Game::PAWN_WHITE
-      pawn.count = 0
-      expect(game.valid_play_for_pawn?(pawn, "2A", "1A")).to be_falsey
+
+    describe "black pawn" do
+      it "moves one space" do
+        pawn = Game::PAWN_BLACK
+        expect(game.valid_play_for_pawn?(pawn, "6A", "5A")).to be_truthy
+      end
+      it "moves two spaces on the first play" do
+        pawn = Game::PAWN_BLACK
+        pawn.count = 0
+        expect(game.valid_play_for_pawn?(pawn, "6A", "4A")).to be_truthy
+      end
+      it "does not move more than one space vertically on the second play" do
+        pawn = Game::PAWN_BLACK
+        pawn.count = 0
+        game.play("6A", "5A")
+        pawn.count = 1
+        game.switch_player
+        game.play("1A", "2A")
+        game.switch_player
+        expect(game.valid_play_for_pawn?(pawn, "5A", "3A")).to be_falsey
+      end
+      it "does not move backwards" do
+        pawn = Game::PAWN_BLACK
+        pawn.count = 0
+        expect(game.valid_play_for_pawn?(pawn, "6A", "7A")).to be_falsey
+      end
     end
   end
 end
