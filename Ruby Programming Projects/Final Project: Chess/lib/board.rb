@@ -25,5 +25,19 @@ class Board
     @board[6][0], @board[6][1], @board[6][2], @board[6][3], @board[6][4], @board[6][5], @board[6][6], @board[6][7] = PAWN_BLACK, PAWN_BLACK, PAWN_BLACK, PAWN_BLACK, PAWN_BLACK, PAWN_BLACK, PAWN_BLACK, PAWN_BLACK
   end
 
-  
+  def print_board
+    puts "    A   B   C   D   E   F   G   H"
+    @board.each_with_index do |row, index|
+      print "#{index} | "
+      row.each do |piece|
+        if piece == PAWN_WHITE or piece == PAWN_BLACK
+          print "#{piece.name} | "
+        else
+          print "#{piece} | "
+        end
+      end
+      puts "#{index}"
+    end
+    puts "    A   B   C   D   E   F   G   H"
+  end
 end
