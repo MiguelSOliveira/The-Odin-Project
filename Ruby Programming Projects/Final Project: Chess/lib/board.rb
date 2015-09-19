@@ -11,5 +11,9 @@ class Board
   PAWN_BLACK.count = 0
   attr_reader :board
 
+  def clear_board
+    @board = Array.new(COLS) { Array.new(ROWS, "-") }
+  end
+
   
 end
