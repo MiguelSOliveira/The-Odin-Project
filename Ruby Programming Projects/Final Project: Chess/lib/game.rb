@@ -25,4 +25,36 @@ class Game < Board
     return false
   end
 
+  def get_piece_at square
+    piece = @board[square[0].to_i][LETTERS_TO_INDEX[square[1]]]
+    case piece
+    when '-'
+      return '-'
+    when PAWN_WHITE
+      return "PAWN_WHITE"
+    when ROOK_WHITE
+      return "ROOK_WHITE"
+    when KNIGHT_WHITE
+      return "KNIGHT_WHITE"
+    when BISHOP_WHITE
+      return "BISHOP_WHITE"
+    when KING_WHITE
+      return "KING_WHITE"
+    when QUEEN_WHITE
+      return "QUEEN_WHITE"
+    when PAWN_BLACK
+      return "PAWN_BLACK"
+    when ROOK_BLACK
+      return "ROOK_BLACK"
+    when KNIGHT_BLACK
+      return "KNIGHT_BLACK"
+    when BISHOP_BLACK
+      return "BISHOP_BLACK"
+    when KING_BLACK
+      return "KING_BLACK"
+    when QUEEN_BLACK
+      return "QUEEN_BLACK"
+    end
+  end
+
 end
