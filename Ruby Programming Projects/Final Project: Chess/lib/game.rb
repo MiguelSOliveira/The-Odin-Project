@@ -26,7 +26,3 @@ class Game < Board
   end
 
 end
-
-
-g = Game.new
-g.print_board
