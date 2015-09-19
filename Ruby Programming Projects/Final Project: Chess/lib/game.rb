@@ -17,4 +17,7 @@ class Game < Board
     return true
   end
 
+  def switch_player
+    @cur_player = (@cur_player == :one) ? :two : :one
+  end
 end
