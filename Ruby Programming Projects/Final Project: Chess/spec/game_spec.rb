@@ -31,4 +31,11 @@ describe Game do
       expect(game.get_piece_at("0E")).to eq("QUEEN_WHITE")
     end
   end
+  describe "#switch_player" do
+    it "switches player correctly" do
+      expect(game.cur_player).to eq(:one)
+      game.switch_player
+      expect(game.cur_player).to eq(:two)
+    end
+  end
 end
