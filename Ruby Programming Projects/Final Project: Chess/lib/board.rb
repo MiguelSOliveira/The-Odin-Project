@@ -2,7 +2,7 @@ require 'ostruct'
 
 class Board
   COLS, ROWS = 8, 8
-  LETTERS_TO_INDEX = { 'A' => 1, 'B' => 2, 'C' => 3, 'D' => 4, 'E' => 5, 'F' => 6, 'G' => 7, 'H' => 8 }
+  LETTERS_TO_INDEX = { 'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3, 'E' => 4, 'F' => 5, 'G' => 6, 'H' => 7 }
   KING_WHITE, QUEEN_WHITE, ROOK_WHITE, BISHOP_WHITE, KNIGHT_WHITE, PAWN_WHITE = "\u2654".encode("utf-8"), "\u2655".encode("utf-8"), "\u2656".encode("utf-8"), "\u2657".encode("utf-8"), "\u2658".encode("utf-8"), OpenStruct.new
   PAWN_WHITE.name = "\u2659".encode("utf-8")
   PAWN_WHITE.count = 0
