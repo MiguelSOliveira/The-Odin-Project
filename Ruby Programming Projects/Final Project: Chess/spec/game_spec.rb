@@ -14,4 +14,11 @@ describe Game do
       expect(game.move_piece("4A", "3A")).to be_falsey
     end
   end
+  describe "#out_of_bounds" do
+    it "does not move out of bounds" do
+      expect(game.out_of_bounds("6A", "8A")).to be_truthy
+      expect(game.out_of_bounds("6A", "6I")).to be_truthy
+      expect(game.out_of_bounds("6A", "5A")).to be_falsey
+    end
+  end
 end
