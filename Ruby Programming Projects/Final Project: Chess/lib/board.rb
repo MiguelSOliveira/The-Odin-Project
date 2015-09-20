@@ -81,4 +81,10 @@ class Board
     end
   end
 
+  def get_colour_at square
+    return "WHITE" if (get_piece_at square).include?("WHITE")
+    return "BLACK" if (get_piece_at square).include?("BLACK")
+  end
+
+  
 end
