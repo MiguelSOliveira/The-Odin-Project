@@ -51,4 +51,15 @@ describe Game do
       expect(game.valid_play_for_knight("5C", "6E")).to be_falsey
     end
   end
+  describe "#valid_play_for_rook" do
+    it "moves to the correct places" do
+      game.board[6][0] = '-'
+      game.move_piece("7A", "5A")
+      expect(game.valid_play_for_rook("5A", "5H")).to be_truthy
+      expect(game.valid_play_for_rook("5A", "2A")).to be_truthy
+      expect(game.valid_play_for_rook("5A", "1A")).to be_truthy
+      expect(game.valid_play_for_rook("5A", "0A")).to be_falsey
+      expect(game.valid_play_for_rook("5A", "1B")).to be_falsey
+    end
+  end
 end
