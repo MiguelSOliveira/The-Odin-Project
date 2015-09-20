@@ -38,4 +38,17 @@ describe Game do
       expect(game.cur_player).to eq(:two)
     end
   end
+  describe "#valid_play_for_knight" do
+    it "moves to the correct places" do
+      game.move_piece("7B", "5C")
+      expect(game.valid_play_for_knight("5C", "3D")).to be_truthy
+      expect(game.valid_play_for_knight("5C", "3B")).to be_truthy
+      expect(game.valid_play_for_knight("5C", "4A")).to be_truthy
+      expect(game.valid_play_for_knight("5C", "4E")).to be_truthy
+      expect(game.valid_play_for_knight("5C", "6A")).to be_falsey
+      expect(game.valid_play_for_knight("5C", "7B")).to be_truthy
+      expect(game.valid_play_for_knight("5C", "7D")).to be_falsey
+      expect(game.valid_play_for_knight("5C", "6E")).to be_falsey
+    end
+  end
 end
