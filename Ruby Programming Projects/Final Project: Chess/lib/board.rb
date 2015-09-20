@@ -107,4 +107,21 @@ class Board
     return false
   end
 
+  def valid_play_for_rook from, to
+    return false unless from[0] == to[0] or from[1] == to[1]
+    return false if (get_piece_at to).include?(get_colour_at from)
+
+    if from[1] == to[1]
+      from[0], to[0] = to[0], from[0] if from[0].to_i > to[0].to_i
+      ((from[0].to_i+1)...to[0].to_i).each do |index|
+        return false if @board[index][LETTERS_TO_INDEX[from[1]]] != '-'
+      end
+    else
+      from[1], to[1] = to[1], from[1] if LETTERS_TO_INDEX[from[1]] > LETTERS_TO_INDEX[to[1]]
+      ((LETTERS_TO_INDEX[from[1]]+1)...LETTERS_TO_INDEX[to[1]].to_i).each do |letter|
+        return false if @board[from[0].to_i][letter] != '-'
+      end
+    end
+    return true
+  end
 end
