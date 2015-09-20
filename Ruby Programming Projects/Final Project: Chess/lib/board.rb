@@ -124,4 +124,19 @@ class Board
     end
     return true
   end
+
+  def valid_play_for_king from, to
+    return false if (get_piece_at to).include?(get_colour_at(from))
+
+    plays = [[-1,-1], [-1,0], [-1,1], [0,-1], [0,1], [1,-1], [1,0], [1,1]]
+    possible_moves = []
+
+    plays.each do |play|
+      new_index = (from[0].to_i + play[0]).to_s
+      new_letter = find_letter(from[1], play[1])
+      possible_moves.push ( new_index + new_letter )
+    end
+    return true if possible_moves.include?(to)
+    return false
+  end
 end
