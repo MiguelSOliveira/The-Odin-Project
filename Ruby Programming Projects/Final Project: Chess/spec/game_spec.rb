@@ -62,4 +62,17 @@ describe Game do
       expect(game.valid_play_for_rook("5A", "1B")).to be_falsey
     end
   end
+  describe "#valid_play_for_king" do
+  it "moves the king correctly" do
+    game.board[5][3] = Board::KING_BLACK
+    expect(game.valid_play_for_king("5D", "4C")).to be_truthy
+    expect(game.valid_play_for_king("5D", "4D")).to be_truthy
+    expect(game.valid_play_for_king("5D", "4E")).to be_truthy
+    expect(game.valid_play_for_king("5D", "5C")).to be_truthy
+    expect(game.valid_play_for_king("5D", "5E")).to be_truthy
+    expect(game.valid_play_for_king("5D", "6C")).to be_falsey
+    expect(game.valid_play_for_king("5D", "6D")).to be_falsey
+    expect(game.valid_play_for_king("5D", "6E")).to be_falsey
+  end
+  end
 end
