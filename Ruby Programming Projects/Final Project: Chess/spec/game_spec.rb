@@ -63,16 +63,40 @@ describe Game do
     end
   end
   describe "#valid_play_for_king" do
-  it "moves the king correctly" do
-    game.board[5][3] = Board::KING_BLACK
-    expect(game.valid_play_for_king("5D", "4C")).to be_truthy
-    expect(game.valid_play_for_king("5D", "4D")).to be_truthy
-    expect(game.valid_play_for_king("5D", "4E")).to be_truthy
-    expect(game.valid_play_for_king("5D", "5C")).to be_truthy
-    expect(game.valid_play_for_king("5D", "5E")).to be_truthy
-    expect(game.valid_play_for_king("5D", "6C")).to be_falsey
-    expect(game.valid_play_for_king("5D", "6D")).to be_falsey
-    expect(game.valid_play_for_king("5D", "6E")).to be_falsey
+    it "moves the king correctly" do
+      game.board[5][3] = Board::KING_BLACK
+      expect(game.valid_play_for_king("5D", "4C")).to be_truthy
+      expect(game.valid_play_for_king("5D", "4D")).to be_truthy
+      expect(game.valid_play_for_king("5D", "4E")).to be_truthy
+      expect(game.valid_play_for_king("5D", "5C")).to be_truthy
+      expect(game.valid_play_for_king("5D", "5E")).to be_truthy
+      expect(game.valid_play_for_king("5D", "6C")).to be_falsey
+      expect(game.valid_play_for_king("5D", "6D")).to be_falsey
+      expect(game.valid_play_for_king("5D", "6E")).to be_falsey
+    end
   end
+  describe "#valid_play_for_bishop" do
+    it "moves the pawn correctly through the diagonals" do
+      game.board[4][4] = Game::BISHOP_BLACK
+      expect(game.valid_play_for_bishop("4E", "3D")).to be_truthy
+      expect(game.valid_play_for_bishop("4E", "2C")).to be_truthy
+      expect(game.valid_play_for_bishop("4E", "6C")).to be_falsey
+      expect(game.valid_play_for_bishop("4E", "7B")).to be_falsey
+      expect(game.valid_play_for_bishop("4E", "5D")).to be_truthy
+      expect(game.valid_play_for_bishop("4E", "1H")).to be_falsey
+      expect(game.valid_play_for_bishop("4E", "1B")).to be_falsey
+      expect(game.valid_play_for_bishop("4E", "0A")).to be_falsey
+      temp1 = game.board[6][6]
+      temp2 = game.board[7][7]
+      game.board[6][6] = '-'
+      game.board[7][7] = '-'
+      expect(game.valid_play_for_bishop("4E", "7H")).to be_truthy
+      game.board[6][6] = temp1
+      game.board[7][7] = temp2
+      expect(game.valid_play_for_bishop("4E", "5F")).to be_truthy
+      expect(game.valid_play_for_bishop("4E", "6G")).to be_falsey
+      expect(game.valid_play_for_bishop("4E", "3F")).to be_truthy
+      expect(game.valid_play_for_bishop("4E", "2G")).to be_truthy
+    end
   end
 end
