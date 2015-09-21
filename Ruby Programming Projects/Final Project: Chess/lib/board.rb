@@ -84,6 +84,7 @@ class Board
   def get_colour_at square
     return "WHITE" if (get_piece_at square).include?("WHITE")
     return "BLACK" if (get_piece_at square).include?("BLACK")
+    return "OTHER"
   end
 
   def find_letter letter, spaces
@@ -135,6 +136,106 @@ class Board
       new_index = (from[0].to_i + play[0]).to_s
       new_letter = find_letter(from[1], play[1])
       possible_moves.push ( new_index + new_letter )
+    end
+    return true if possible_moves.include?(to)
+    return false
+  end
+
+  def decrement_both square
+    if square[0].to_i > 0
+      new_index  = (square[0].to_i - 1).to_s
+    else
+      new_index = square[0]
+    end
+    if LETTERS_TO_INDEX[square[1]] > 0 and square[0].to_i > 0
+      new_letter = (square[1].ord-1).chr
+    else
+      new_letter = square[1]
+    end
+    return ( new_index + new_letter )
+  end
+
+  def decrement_letters square
+    if square[0].to_i < 7
+      new_index  = (square[0].to_i + 1).to_s
+    else
+      new_index = square[0]
+    end
+    if LETTERS_TO_INDEX[square[1]] > 0 and square[0].to_i < 7
+      new_letter = (square[1].ord - 1).chr
+    else
+      new_letter = square[1]
+    end
+    return ( new_index + new_letter )
+  end
+
+  def increment_both square
+    if square[0].to_i < 7
+      new_index = (square[0].to_i + 1).to_s
+    else
+      new_index = square[0]
+    end
+    if LETTERS_TO_INDEX[square[1]] < 7 and square[0].to_i < 7
+      new_letter = (square[1].ord + 1).chr
+    else
+      new_letter = square[1]
+    end
+    return ( new_index + new_letter )
+  end
+
+  def decrement_index square
+    if square[0].to_i > 0
+      new_index = (square[0].to_i - 1).to_s
+    else
+      new_index = square[0]
+    end
+    if LETTERS_TO_INDEX[square[1]] < 7 and square[0].to_i > 0
+      new_letter = (square[1].ord + 1).chr
+    else
+      new_letter = square[1]
+    end
+    return ( new_index + new_letter )
+  end
+
+  def valid_play_for_bishop from, to
+    return false if (get_piece_at to).include?(get_colour_at(from))
+
+    possible_moves = []
+    cur_square = from
+    # 0A, 1B diagonal
+    while cur_square[0].to_i >= 0 and LETTERS_TO_INDEX[cur_square[1]] >= 0
+      cur_square = decrement_both cur_square
+      if @board[cur_square[0].to_i][LETTERS_TO_INDEX[cur_square[1]]] == '-'
+        possible_moves.push cur_square
+      end
+      break if decrement_both(cur_square) == cur_square
+    end
+    cur_square = from
+    # 7A, 6B diagonal
+    while cur_square[0].to_i <= 7 and LETTERS_TO_INDEX[cur_square[1]] >= 0
+      cur_square = decrement_letters cur_square
+      if @board[cur_square[0].to_i][LETTERS_TO_INDEX[cur_square[1]]] == '-'
+        possible_moves.push cur_square
+      end
+      break if decrement_letters(cur_square) == cur_square
+    end
+    cur_square = from
+    # 7H, 6G diagonal
+    while cur_square[0].to_i <= 7 and LETTERS_TO_INDEX[cur_square[1]] <= 7
+      cur_square = increment_both cur_square
+      if @board[cur_square[0].to_i][LETTERS_TO_INDEX[cur_square[1]]] == '-'
+        possible_moves.push cur_square
+      end
+      break if increment_both(cur_square) == cur_square
+    end
+    cur_square = from
+    # 0H, 1G diagonal
+    while cur_square[0].to_i >= 0 and LETTERS_TO_INDEX[cur_square[1]] <= 7
+      cur_square = decrement_index cur_square
+      if @board[cur_square[0].to_i][LETTERS_TO_INDEX[cur_square[1]]] == '-'
+        possible_moves.push cur_square
+      end
+      break if decrement_index(cur_square) == cur_square
     end
     return true if possible_moves.include?(to)
     return false
