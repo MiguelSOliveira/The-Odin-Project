@@ -99,4 +99,28 @@ describe Game do
       expect(game.valid_play_for_bishop("4E", "2G")).to be_truthy
     end
   end
+  describe "#valid_play_for_queen" do
+    it "moves the queen correctly" do
+      game.board[4][4] = Game::QUEEN_BLACK
+      # Bishop Moves
+      expect(game.valid_play_for_queen("4E", "2C")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "3D")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "5D")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "5F")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "3F")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "2G")).to be_truthy
+      # Rook Moves
+      expect(game.valid_play_for_queen("4E", "4F")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "4G")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "4H")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "5E")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "4A")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "4B")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "4C")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "4D")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "3E")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "2E")).to be_truthy
+      expect(game.valid_play_for_queen("4E", "1E")).to be_truthy
+    end
+  end
 end
