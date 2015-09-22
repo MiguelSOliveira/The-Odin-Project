@@ -197,6 +197,13 @@ class Board
     return ( new_index + new_letter )
   end
 
+  def check_empty_square possible_moves, cur_square
+    if @board[cur_square[0].to_i][LETTERS_TO_INDEX[cur_square[1]]] == '-'
+      possible_moves.push cur_square
+    end
+    return possible_moves
+  end
+
   def valid_play_for_bishop from, to
     return false if (get_piece_at to).include?(get_colour_at(from))
 
@@ -205,39 +212,36 @@ class Board
     # 0A, 1B diagonal
     while cur_square[0].to_i >= 0 and LETTERS_TO_INDEX[cur_square[1]] >= 0
       cur_square = decrement_both cur_square
-      if @board[cur_square[0].to_i][LETTERS_TO_INDEX[cur_square[1]]] == '-'
-        possible_moves.push cur_square
-      end
+      possible_moves = check_empty_square(possible_moves, cur_square)
       break if decrement_both(cur_square) == cur_square
     end
     cur_square = from
     # 7A, 6B diagonal
     while cur_square[0].to_i <= 7 and LETTERS_TO_INDEX[cur_square[1]] >= 0
       cur_square = decrement_letters cur_square
-      if @board[cur_square[0].to_i][LETTERS_TO_INDEX[cur_square[1]]] == '-'
-        possible_moves.push cur_square
-      end
+      possible_moves = check_empty_square(possible_moves, cur_square)
       break if decrement_letters(cur_square) == cur_square
     end
     cur_square = from
     # 7H, 6G diagonal
     while cur_square[0].to_i <= 7 and LETTERS_TO_INDEX[cur_square[1]] <= 7
       cur_square = increment_both cur_square
-      if @board[cur_square[0].to_i][LETTERS_TO_INDEX[cur_square[1]]] == '-'
-        possible_moves.push cur_square
-      end
+      possible_moves = check_empty_square(possible_moves, cur_square)
       break if increment_both(cur_square) == cur_square
     end
     cur_square = from
     # 0H, 1G diagonal
     while cur_square[0].to_i >= 0 and LETTERS_TO_INDEX[cur_square[1]] <= 7
       cur_square = decrement_index cur_square
-      if @board[cur_square[0].to_i][LETTERS_TO_INDEX[cur_square[1]]] == '-'
-        possible_moves.push cur_square
-      end
+      possible_moves = check_empty_square(possible_moves, cur_square)
       break if decrement_index(cur_square) == cur_square
     end
     return true if possible_moves.include?(to)
+    return false
+  end
+
+  def valid_play_for_queen from, to
+    return true if valid_play_for_rook(from, to) or valid_play_for_bishop(from, to)
     return false
   end
 end
