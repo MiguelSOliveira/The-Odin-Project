@@ -1,15 +1,30 @@
 require 'ostruct'
 
+class Pawn
+  attr_accessor :count
+  attr_reader :name, :colour
+
+  def initialize colour
+    @count = 0
+    @colour = colour
+    colour_piece
+  end
+
+  def colour_piece
+    if @colour == "WHITE"
+      @name = "\u2659".encode("utf-8")
+    else
+      @name = "\u265F".encode("utf-8")
+    end
+  end
+end
+
 class Board
   COLS, ROWS = 8, 8
   LETTERS_TO_INDEX = { 'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3, 'E' => 4, 'F' => 5, 'G' => 6, 'H' => 7 }
-  KING_WHITE, QUEEN_WHITE, ROOK_WHITE, BISHOP_WHITE, KNIGHT_WHITE, PAWN_WHITE = "\u2654".encode("utf-8"), "\u2655".encode("utf-8"), "\u2656".encode("utf-8"), "\u2657".encode("utf-8"), "\u2658".encode("utf-8"), OpenStruct.new
-  PAWN_WHITE.name = "\u2659".encode("utf-8")
-  PAWN_WHITE.count = 0
-  KING_BLACK, QUEEN_BLACK, ROOK_BLACK, BISHOP_BLACK, KNIGHT_BLACK, PAWN_BLACK = "\u265A".encode("utf-8"), "\u265B".encode("utf-8"), "\u265C".encode("utf-8"), "\u265D".encode("utf-8"), "\u265E".encode("utf-8"), OpenStruct.new
-  PAWN_BLACK.name = "\u265F".encode("utf-8")
-  PAWN_BLACK.count = 0
-  attr_reader :board
+  KING_WHITE, QUEEN_WHITE, ROOK_WHITE, BISHOP_WHITE, KNIGHT_WHITE = "\u2654".encode("utf-8"), "\u2655".encode("utf-8"), "\u2656".encode("utf-8"), "\u2657".encode("utf-8"), "\u2658".encode("utf-8")
+  KING_BLACK, QUEEN_BLACK, ROOK_BLACK, BISHOP_BLACK, KNIGHT_BLACK = "\u265A".encode("utf-8"), "\u265B".encode("utf-8"), "\u265C".encode("utf-8"), "\u265D".encode("utf-8"), "\u265E".encode("utf-8")
+  attr_accessor :board
 
   def clear_board
     @board = Array.new(COLS) { Array.new(ROWS, "-") }
@@ -19,10 +34,10 @@ class Board
     @board = Array.new(COLS) { Array.new(ROWS, "-") }
 
     @board[0][0], @board[0][1], @board[0][2], @board[0][3], @board[0][4], @board[0][5], @board[0][6], @board[0][7] = ROOK_WHITE, KNIGHT_WHITE, BISHOP_WHITE, KING_WHITE, QUEEN_WHITE, BISHOP_WHITE, KNIGHT_WHITE, ROOK_WHITE
-    @board[1][0], @board[1][1], @board[1][2], @board[1][3], @board[1][4], @board[1][5], @board[1][6], @board[1][7] = PAWN_WHITE, PAWN_WHITE, PAWN_WHITE, PAWN_WHITE, PAWN_WHITE, PAWN_WHITE, PAWN_WHITE, PAWN_WHITE
+    @board[1][0], @board[1][1], @board[1][2], @board[1][3], @board[1][4], @board[1][5], @board[1][6], @board[1][7] = Pawn.new("WHITE"), Pawn.new("WHITE"), Pawn.new("WHITE"), Pawn.new("WHITE"), Pawn.new("WHITE"), Pawn.new("WHITE"), Pawn.new("WHITE"), Pawn.new("WHITE")
 
     @board[7][0], @board[7][1], @board[7][2], @board[7][3], @board[7][4], @board[7][5], @board[7][6], @board[7][7] = ROOK_BLACK, KNIGHT_BLACK, BISHOP_BLACK, KING_BLACK, QUEEN_BLACK, BISHOP_BLACK, KNIGHT_BLACK, ROOK_BLACK
-    @board[6][0], @board[6][1], @board[6][2], @board[6][3], @board[6][4], @board[6][5], @board[6][6], @board[6][7] = PAWN_BLACK, PAWN_BLACK, PAWN_BLACK, PAWN_BLACK, PAWN_BLACK, PAWN_BLACK, PAWN_BLACK, PAWN_BLACK
+    @board[6][0], @board[6][1], @board[6][2], @board[6][3], @board[6][4], @board[6][5], @board[6][6], @board[6][7] = Pawn.new("BLACK"), Pawn.new("BLACK"), Pawn.new("BLACK"), Pawn.new("BLACK"), Pawn.new("BLACK"), Pawn.new("BLACK"), Pawn.new("BLACK"), Pawn.new("BLACK")
   end
 
   def print_board
@@ -30,7 +45,7 @@ class Board
     @board.each_with_index do |row, index|
       print "#{index} | "
       row.each do |piece|
-        if piece == PAWN_WHITE or piece == PAWN_BLACK
+        if piece.instance_of?(Pawn)
           print "#{piece.name} | "
         else
           print "#{piece} | "
@@ -51,11 +66,14 @@ class Board
 
   def get_piece_at square
     piece = @board[square[0].to_i][LETTERS_TO_INDEX[square[1]]]
+    white_pawn = Pawn.new("WHITE")
+    black_pawn = Pawn.new("BLACK")
     case piece
     when '-'
       return '-'
-    when PAWN_WHITE
-      return "PAWN_WHITE"
+    when Pawn
+      if piece.colour == "WHITE" then return "PAWN_WHITE" end
+      return "PAWN_BLACK"
     when ROOK_WHITE
       return "ROOK_WHITE"
     when KNIGHT_WHITE
@@ -66,8 +84,6 @@ class Board
       return "KING_WHITE"
     when QUEEN_WHITE
       return "QUEEN_WHITE"
-    when PAWN_BLACK
-      return "PAWN_BLACK"
     when ROOK_BLACK
       return "ROOK_BLACK"
     when KNIGHT_BLACK
@@ -244,4 +260,35 @@ class Board
     return true if valid_play_for_rook(from, to) or valid_play_for_bishop(from, to)
     return false
   end
+
+  def valid_play_for_pawn pawn, from, to
+    return false if (get_piece_at to).include?(get_colour_at(from))
+
+    if pawn.colour == "WHITE"
+      if @board[from[0].to_i][LETTERS_TO_INDEX[from[1]]].count == 0
+        @board[from[0].to_i][LETTERS_TO_INDEX[from[1]]].count  += 1
+        return true if from[1] == to[1] and from[0].to_i + 2 == to[0].to_i
+      end
+
+      return false if not to[0].to_i > from[0].to_i
+      return true  if to[0].to_i == from[0].to_i + 1 and to[1] == from[1]
+      return true  if to[0].to_i == from[0].to_i + 1 and (to[1].ord + 1).chr == from[1] and get_colour_at(to) == "BLACK"
+      return true  if to[0].to_i == from[0].to_i + 1 and (to[1].ord - 1).chr == from[1] and get_colour_at(to) == "BLACK"
+      return false
+    else
+      if @board[from[0].to_i][LETTERS_TO_INDEX[from[1]]].count == 0
+        @board[from[0].to_i][LETTERS_TO_INDEX[from[1]]].count  += 1
+        return true if from[1] == to[1] and from[0].to_i - 2 == to[0].to_i
+      end
+
+      return false if not to[0].to_i < from[0].to_i
+      return true  if to[0].to_i == from[0].to_i - 1 and to[1] == from[1]
+      return true  if to[0].to_i == from[0].to_i - 1 and (to[1].ord + 1).chr == from[1] and get_colour_at(to) == "WHITE"
+      return true  if to[0].to_i == from[0].to_i - 1 and (to[1].ord - 1).chr == from[1] and get_colour_at(to) == "WHITE"
+      return false
+    end
+  end
 end
+
+g = Board.new
+g.board[4][4] = Pawn.new("WHITE")
