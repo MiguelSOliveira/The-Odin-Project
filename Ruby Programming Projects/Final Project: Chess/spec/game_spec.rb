@@ -123,4 +123,46 @@ describe Game do
       expect(game.valid_play_for_queen("4E", "1E")).to be_truthy
     end
   end
+  describe "#valid_play_for_pawn" do
+    describe "WHITE" do
+      it "moves twice or once in the first play" do
+        pawn = Pawn.new("WHITE")
+        expect(game.valid_play_for_pawn(pawn, "1A", "3A")).to be_truthy
+        expect(game.valid_play_for_pawn(pawn, "1B", "3B")).to be_truthy
+        expect(game.valid_play_for_pawn(pawn, "1C", "2C")).to be_truthy
+      end
+      it "moves once only, after the first play" do
+        pawn = Pawn.new("WHITE")
+        game.move_piece("1A", "3A")
+        game.board[3][0].count += 1
+        expect(game.valid_play_for_pawn(pawn, "3A", "5A")).to be_falsey
+      end
+      it "'eats' diagonally" do
+        game.board[4][4] = Pawn.new("BLACK")
+        game.board[3][3] = Pawn.new("WHITE")
+        pawn = game.board[3][3]
+        expect(game.valid_play_for_pawn(pawn, "3D", "4E")).to be_truthy
+      end
+    end
+    describe "BLACK" do
+      it "moves twice or once in the first play" do
+        pawn = Pawn.new("BLACK")
+        expect(game.valid_play_for_pawn(pawn, "6A", "4A")).to be_truthy
+        expect(game.valid_play_for_pawn(pawn, "6B", "4B")).to be_truthy
+        expect(game.valid_play_for_pawn(pawn, "6C", "5C")).to be_truthy
+      end
+      it "moves once only, after the first play" do
+        pawn = Pawn.new("BLACK")
+        game.move_piece("6A", "4A")
+        game.board[4][0].count += 1
+        expect(game.valid_play_for_pawn(pawn, "4A", "2A")).to be_falsey
+      end
+      it "'eats' diagonally" do
+        game.board[4][4] = Pawn.new("BLACK")
+        game.board[3][3] = Pawn.new("WHITE")
+        pawn = game.board[4][4]
+        expect(game.valid_play_for_pawn(pawn, "4E", "3D")).to be_truthy
+      end
+    end
+  end
 end
