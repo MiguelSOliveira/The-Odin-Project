@@ -83,8 +83,8 @@ describe Game do
       expect(game.valid_play_for_bishop("4E", "6C")).to be_falsey
       expect(game.valid_play_for_bishop("4E", "7B")).to be_falsey
       expect(game.valid_play_for_bishop("4E", "5D")).to be_truthy
-      expect(game.valid_play_for_bishop("4E", "1H")).to be_falsey
-      expect(game.valid_play_for_bishop("4E", "1B")).to be_falsey
+      expect(game.valid_play_for_bishop("4E", "1H")).to be_truthy
+      expect(game.valid_play_for_bishop("4E", "1B")).to be_truthy
       expect(game.valid_play_for_bishop("4E", "0A")).to be_falsey
       temp1 = game.board[6][6]
       temp2 = game.board[7][7]
@@ -163,6 +163,21 @@ describe Game do
         pawn = game.board[4][4]
         expect(game.valid_play_for_pawn(pawn, "4E", "3D")).to be_truthy
       end
+    end
+  end
+  describe "#has_checked" do
+    it "looks for checks for queen" do
+      game.move_piece("1D", "2D")
+      game.move_piece("0E", "3B")
+      game.move_piece("3B", "5B")
+      game.move_piece("6C", "5C")
+      expect(game.has_checked("5B")).to be_truthy
+    end
+    it "looks for checks for bishop" do
+      game.move_piece("1D", "3D")
+      game.move_piece("6E", "4E")
+      game.move_piece("0C", "4G")
+      expect(game.has_checked("4G")).to be_truthy
     end
   end
 end
