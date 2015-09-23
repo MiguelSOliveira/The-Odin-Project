@@ -338,5 +338,19 @@ class Board
     end
   end
 
-  
+  def has_mated colour
+
+    if colour == "WHITE"
+      cur_king = @king_black
+    else
+      cur_king = @king_white
+    end
+
+    possible_moves = [[-1,-1], [-1,0], [-1,1], [0,-1], [0,1], [1,-1], [1,0], [1,1]]
+    possible_moves.each do |move|
+      temp_move = (cur_king[0].to_i + move[0]).to_s + (cur_king[1].ord + move[1]).chr
+      return false if valid_play_for_king(cur_king, temp_move)
+    end
+    return true
+  end
 end
