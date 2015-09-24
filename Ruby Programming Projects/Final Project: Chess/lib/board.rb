@@ -69,6 +69,8 @@ class Board
   end
 
   def get_piece_at square
+    return '-' if out_of_bounds('1A', square)
+
     if square.instance_of?(Pawn)
       return "PAWN_#{square.colour}"
     end
